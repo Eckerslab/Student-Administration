@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="StudentAdministration.UI.Views.AddEditStudentPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:input="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:interface="clr-namespace:StudentAdministration.UI.ViewModel.Interfaces"
+    xmlns:languages="using:StudentAdministration.UI.Resources.Languages"
+    x:DataType="interface:IAddEditStudentPageViewModel">
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill">
+            <Grid
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="WhiteSmoke"
+                ColumnDefinitions="35*,30*,35*"
+                HorizontalOptions="Fill"
+                RowDefinitions="10*,10*,10*,10*,10*,10*,10*,10*"
+                RowSpacing="10"
+                VerticalOptions="Fill">
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    FontSize="30"
+                    HorizontalOptions="Center"
+                    Text="{Binding AddEditTitle}"
+                    TextColor="Black" />
+                <inputLayout:SfTextInputLayout
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    ErrorText="{x:Static languages:AppResources.FillFieldsTitle}"
+                    HasError="{Binding FieldsEmptyCheck}"
+                    Hint="{x:Static languages:AppResources.FirstNameTitle}">
+                    <Entry Text="{Binding NewFirstName, Mode=TwoWay}" TextColor="Black" />
+                </inputLayout:SfTextInputLayout>
+                <inputLayout:SfTextInputLayout
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    ErrorText="{x:Static languages:AppResources.FillFieldsTitle}"
+                    HasError="{Binding FieldsEmptyCheck}"
+                    Hint="{x:Static languages:AppResources.LastNameTitle}">
+                    <Entry Text="{Binding NewLastName, Mode=TwoWay}" TextColor="Black" />
+                </inputLayout:SfTextInputLayout>
+                <inputLayout:SfTextInputLayout
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    ErrorText="{x:Static languages:AppResources.FillFieldsTitle}"
+                    HasError="{Binding FieldsEmptyCheck}"
+                    Hint="{x:Static languages:AppResources.EmailTitle}">
+                    <Entry Text="{Binding NewEmail, Mode=TwoWay}" TextColor="Black" />
+                </inputLayout:SfTextInputLayout>
+                <inputLayout:SfTextInputLayout
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    ErrorText="{x:Static languages:AppResources.FillFieldsTitle}"
+                    HasError="{Binding FieldsEmptyCheck}"
+                    Hint="{x:Static languages:AppResources.DegreeProgramTitle}">
+                    <input:SfComboBox
+                        DisplayMemberPath="Name"
+                        ItemsSource="{Binding DegreeProgrammBindingModels, Mode=TwoWay}"
+                        SelectedItem="{Binding NewSelectedDegreeProgramm}" />
+                </inputLayout:SfTextInputLayout>
+                <buttons:SfButton
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="10"
+                    Command="{Binding SaveAddEditStudentCommand}"
+                    HorizontalOptions="Start"
+                    Text="{x:Static languages:AppResources.SaveTitle}" />
+                <buttons:SfButton
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="10"
+                    Command="{Binding CancelAddEditStudentCommand}"
+                    HorizontalOptions="End"
+                    Text="{x:Static languages:AppResources.CancleTitle}" />
+                <inputLayout:SfBusyIndicator
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    AnimationType="DoubleCircle"
+                    HeightRequest="100"
+                    HorizontalOptions="Center"
+                    IndicatorColor="RoyalBlue"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="True"
+                    VerticalOptions="Center"
+                    WidthRequest="100" />
+            </Grid>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage
+    x:Class="StudentAdministration.UI.Views.AddGradePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:core="http://schemas.syncfusion.com/maui"
+    xmlns:interface="clr-namespace:StudentAdministration.UI.ViewModel.Interfaces"
+    xmlns:languages="clr-namespace:StudentAdministration.UI.Resources.Languages"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="interface:IAddGradePageViewModel">
+    <ContentPage.Content>
+        <Grid
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="WhiteSmoke"
+            ColumnDefinitions="25*,25*,25*,25*"
+            RowDefinitions="*,20,20,20,90,80,75,*"
+            RowSpacing="25">
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                TextColor="Black">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{x:Static languages:AppResources.NameTitle}" />
+                        <Span Text=":" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="{Binding StudentFullName, Mode=TwoWay}"
+                TextColor="Black" />
+            <Label
+                Grid.Row="2"
+                Grid.Column="1"
+                TextColor="Black">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{x:Static languages:AppResources.CreditsTitle}" />
+                        <Span Text=":" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label
+                Grid.Row="2"
+                Grid.Column="2"
+                Text="{Binding Student.Credits, Mode=TwoWay}"
+                TextColor="Black" />
+            <Label
+                Grid.Row="3"
+                Grid.Column="1"
+                TextColor="Black">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{x:Static languages:AppResources.DegreeProgramTitle}" />
+                        <Span Text=":" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label
+                Grid.Row="3"
+                Grid.Column="2"
+                Text="{Binding Student.DegreeProgram.Name}"
+                TextColor="Black" />
+            <core:SfTextInputLayout
+                Grid.Row="4"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                ErrorText="{x:Static languages:AppResources.CourseErrorTitle}"
+                HasError="{Binding IsInvalidGrade}"
+                Hint="{x:Static languages:AppResources.CourseTitle}">
+                <core:SfComboBox
+                    x:Name="CourseCombobox"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding ListOfCourses}"
+                    SelectedItem="{Binding SelectedCourse, Mode=TwoWay}">
+                    <core:SfComboBox.Behaviors>
+                        <toolkit:EventToCommandBehavior
+                            BindingContext="{Binding Path=BindingContext, Source={x:Reference CourseCombobox}}"
+                            Command="{Binding SelectedCourseChangedCommand}"
+                            EventName="SelectionChanged" />
+                    </core:SfComboBox.Behaviors>
+                </core:SfComboBox>
+            </core:SfTextInputLayout>
+            <core:SfTextInputLayout
+                Grid.Row="5"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                ErrorText="{x:Static languages:AppResources.GradeErrorTitle}"
+                HasError="{Binding IsInvalidGrade}"
+                Hint="{x:Static languages:AppResources.GradeTitle}">
+                <core:SfNumericEntry
+                    AllowNull="True"
+                    IsEditable="False"
+                    Maximum="6"
+                    Minimum="1"
+                    UpDownPlacementMode="Inline"
+                    Value="{Binding SelectedGrade}" />
+            </core:SfTextInputLayout>
+            <buttons:SfButton
+                Grid.Row="6"
+                Grid.Column="1"
+                Margin="10"
+                Command="{Binding SaveGradeCommand}"
+                Text="{x:Static languages:AppResources.SaveTitle}" />
+            <buttons:SfButton
+                Grid.Row="6"
+                Grid.Column="2"
+                Margin="10"
+                Command="{Binding CancelGradeCommand}"
+                Text="{x:Static languages:AppResources.CancleTitle}" />
+            <core:SfBusyIndicator
+                Grid.Row="0"
+                Grid.RowSpan="8"
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                AnimationType="DoubleCircle"
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                IndicatorColor="RoyalBlue"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="True"
+                VerticalOptions="Center"
+                WidthRequest="100" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
