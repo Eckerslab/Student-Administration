@@ -99,10 +99,8 @@ StudentAdministrationDatabase    →  EF-Core-DbContext, Models, Repositories
 └── StudentAdministration.UnitTests/     # Unit-Tests mit Mock-Repositorys
 ```
 ```mermaid
-classDiagramm
-  diection LR
-  classDiagram
-    direction LR
+classDiagram 
+  direction LR
 
     %% ---------- Generic contracts ----------
     class IBaseRepository~T~ {
