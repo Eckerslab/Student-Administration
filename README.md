@@ -98,5 +98,140 @@ StudentAdministrationDatabase    →  EF-Core-DbContext, Models, Repositories
 ├── StudentAdministrationDatabase/       # DbContext, Models, Repositories, SampleData
 └── StudentAdministration.UnitTests/     # Unit-Tests mit Mock-Repositorys
 ```
+```mermaid
+classDiagramm
+  diection LR
+  classDiagram
+    direction LR
 
+    %% ---------- Generic contracts ----------
+    class IBaseRepository~T~ {
+        <<interface>>
+        +AddAsync(T value)
+        +DeleteAsync(Guid id)
+        +GetAllAsync() List~T~
+        +GetByIdAsync(Guid id) T
+    }
+    class IReceiveService~T~ {
+        <<interface>>
+        +GetAllAsync() List~T~
+        +GetByIdAsync(Guid id) T
+    }
+    class IAddService~T~ {
+        <<interface>>
+        +AddAsync(T value)
+    }
+    class IUpdateService~T~ {
+        <<interface>>
+        +UpdateAsync(T value)
+    }
+    class IDeleteService {
+        <<interface>>
+        +DeleteAsync(Guid id)
+    }
+
+    %% ---------- Data layer ----------
+    class StudentAdministrationDbContext {
+        +DbSet~Student~ Students
+        +DbSet~Course~ Courses
+        +DbSet~Grade~ Grades
+        +DbSet~DegreeProgram~ DegreePrograms
+        +DbSet~University~ Universities
+    }
+
+    class IStudentRepository {
+        <<interface>>
+        +UpdateAsync(Student value)
+    }
+    class IGradeRepository {
+        <<interface>>
+        +GetByStudentIdAsync(Guid id) List~Grade~
+        +UpdateAsync(Grade value)
+    }
+    class ICourseRepository {
+        <<interface>>
+    }
+    class IDegreeProgramRepository {
+        <<interface>>
+    }
+    class IUniversityRepository {
+        <<interface>>
+    }
+
+    class StudentRepository
+    class CourseRepository
+    class GradeRepository
+    class DegreeProgramRepository
+    class UniversityRepository
+
+    IBaseRepository <|-- IStudentRepository
+    IBaseRepository <|-- ICourseRepository
+    IBaseRepository <|-- IGradeRepository
+    IBaseRepository <|-- IDegreeProgramRepository
+    IBaseRepository <|-- IUniversityRepository
+
+    IStudentRepository <|.. StudentRepository
+    ICourseRepository <|.. CourseRepository
+    IGradeRepository <|.. GradeRepository
+    IDegreeProgramRepository <|.. DegreeProgramRepository
+    IUniversityRepository <|.. UniversityRepository
+
+    StudentRepository ..> StudentAdministrationDbContext : uses
+    CourseRepository ..> StudentAdministrationDbContext : uses
+    GradeRepository ..> StudentAdministrationDbContext : uses
+    DegreeProgramRepository ..> StudentAdministrationDbContext : uses
+    UniversityRepository ..> StudentAdministrationDbContext : uses
+
+    %% ---------- Service layer ----------
+    class IStudentService {
+        <<interface>>
+        +GetAllStudentListModels() ObservableCollection~StudentListModel~
+    }
+    class ICourseService {
+        <<interface>>
+        +GetCoursesByDegreeProgramID(Guid id) List~CourseBindingModel~
+    }
+    class IGradeService {
+        <<interface>>
+        +GetByStudentIdAsync(Guid id) List~GradeBindingModel~
+    }
+    class IDegreeProgramService {
+        <<interface>>
+        +GetAllDegreeProgramListModels() ObservableCollection~DegreeProgramListModel~
+    }
+    class IUniversityService {
+        <<interface>>
+    }
+
+    class StudentService
+    class CourseService
+    class GradeService
+    class DegreeProgramService
+    class UniversityService
+
+    IReceiveService <|-- IStudentService
+    IAddService <|-- IStudentService
+    IUpdateService <|-- IStudentService
+    IDeleteService <|-- IStudentService
+    IReceiveService <|-- ICourseService
+    IReceiveService <|-- IGradeService
+    IAddService <|-- IGradeService
+    IUpdateService <|-- IGradeService
+    IDeleteService <|-- IGradeService
+    IReceiveService <|-- IDegreeProgramService
+    IReceiveService <|-- IUniversityService
+
+    IStudentService <|.. StudentService
+    ICourseService <|.. CourseService
+    IGradeService <|.. GradeService
+    IDegreeProgramService <|.. DegreeProgramService
+    IUniversityService <|.. UniversityService
+
+    StudentService ..> IStudentRepository : uses
+    CourseService ..> ICourseRepository : uses
+    GradeService ..> IGradeRepository : uses
+    GradeService ..> ICourseService : uses
+    DegreeProgramService ..> IDegreeProgramRepository : uses
+    UniversityService ..> IUniversityRepository : uses
+```
 ---
