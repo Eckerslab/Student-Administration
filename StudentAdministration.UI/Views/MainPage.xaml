@@ -1,0 +1,197 @@
+﻿<ContentPage
+    x:Class="StudentAdministration.UI.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:datagrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:interface="clr-namespace:StudentAdministration.UI.ViewModel.Interfaces"
+    xmlns:languages="clr-namespace:StudentAdministration.UI.Resources.Languages"
+    xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+    xmlns:radialMenu="clr-namespace:Syncfusion.Maui.RadialMenu;assembly=Syncfusion.Maui.RadialMenu"
+    xmlns:viewmodels="clr-namespace:StudentAdministration.UI.ViewModel"
+    x:DataType="interface:IMainPageViewModel">
+    <Grid
+        AbsoluteLayout.LayoutBounds="0,0,1,1"
+        AbsoluteLayout.LayoutFlags="All"
+        BackgroundColor=" WhiteSmoke"
+        ColumnDefinitions="12*,75*,12*"
+        RowDefinitions="9*,91*">
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            FontSize="15"
+            HorizontalOptions="Start"
+            HorizontalTextAlignment="End"
+            Text="{Binding StudentCountText}"
+            TextColor="Black"
+            VerticalTextAlignment="End" />
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Grid.Column="1"
+            HorizontalOptions="End">
+            <buttons:SfButton
+                Margin="3"
+                Background="RoyalBlue"
+                Command="{Binding AddStudentCommand}"
+                Text="{x:Static languages:AppResources.AddStudentTitle}" />
+            <buttons:SfButton
+                Margin="3"
+                Background="Purple"
+                Command="{Binding ShowFilterPopupCommand}"
+                Text="Filter" />
+        </HorizontalStackLayout>
+        <datagrid:SfDataGrid
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            AutoGenerateColumnsMode="None"
+            CellRightTappedCommand="{Binding RightClickStudentCommand}"
+            GridLinesVisibility="Both"
+            HeaderGridLinesVisibility="Both"
+            HorizontalOptions="Fill"
+            ItemsSource="{Binding StudentListBindingModels, Mode=TwoWay}"
+            SelectionMode="Single"
+            VerticalScrollBarVisibility="Always">
+            <datagrid:SfDataGrid.DefaultStyle>
+                <datagrid:DataGridStyle
+                    HeaderRowBackground="RoyalBlue"
+                    HeaderRowTextColor="White"
+                    RowBackground="White"
+                    RowTextColor="#212121" />
+            </datagrid:SfDataGrid.DefaultStyle>
+            <datagrid:SfDataGrid.Columns>
+                <datagrid:DataGridTextColumn
+                    ColumnWidthMode="FitByCell"
+                    HeaderText="{x:Static languages:AppResources.StudentNumberTitle}"
+                    MappingName="StudentNumber" />
+                <datagrid:DataGridTextColumn
+                    ColumnWidthMode="FitByCell"
+                    HeaderText="{x:Static languages:AppResources.FirstNameTitle}"
+                    MappingName="FirstName" />
+                <datagrid:DataGridTextColumn
+                    ColumnWidthMode="FitByCell"
+                    HeaderText="{x:Static languages:AppResources.LastNameTitle}"
+                    MappingName="LastName"
+                    SortMode="Default" />
+                <datagrid:DataGridTextColumn
+                    ColumnWidthMode="FitByCell"
+                    HeaderText="{x:Static languages:AppResources.EmailTitle}"
+                    MappingName="Email" />
+                <datagrid:DataGridTextColumn
+                    ColumnWidthMode="FitByCell"
+                    HeaderText="{x:Static languages:AppResources.DegreeProgramTitle}"
+                    MappingName="DegreeProgramListModel.Name" />
+                <datagrid:DataGridTextColumn
+                    ColumnWidthMode="FitByHeader"
+                    HeaderText="{x:Static languages:AppResources.CreditsTitle}"
+                    MappingName="Credits" />
+            </datagrid:SfDataGrid.Columns>
+        </datagrid:SfDataGrid>
+        <radialMenu:SfRadialMenu
+            x:Name="radialMenu"
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            CenterButtonFontSize="30"
+            CenterButtonText="X"
+            IsOpen="{Binding IsRadialMenuVisible, Mode=TwoWay}"
+            IsVisible="{Binding IsRadialMenuVisible, Mode=TwoWay}"
+            ItemWidth="150"
+            SeparatorThickness="1">
+            <radialMenu:SfRadialMenu.Items>
+                <radialMenu:SfRadialMenuItem
+                    BackgroundColor="LightBlue"
+                    Command="{Binding EditStudentCommand}"
+                    FontSize="15"
+                    ItemWidth="150"
+                    Text="{x:Static languages:AppResources.EditTitle}" />
+                <radialMenu:SfRadialMenuItem
+                    BackgroundColor="LightBlue"
+                    Command="{Binding DeleteTaskCommand}"
+                    FontSize="15"
+                    ItemWidth="150"
+                    Text="{x:Static languages:AppResources.DeleteTitle}" />
+                <radialMenu:SfRadialMenuItem
+                    BackgroundColor="LightBlue"
+                    Command="{Binding OpenDetailsPopupCommand}"
+                    FontSize="15"
+                    ItemWidth="150"
+                    Text="{x:Static languages:AppResources.DetailsTitle}" />
+                <radialMenu:SfRadialMenuItem
+                    BackgroundColor="LightBlue"
+                    Command="{Binding AddGradeCommand}"
+                    FontSize="15"
+                    ItemWidth="150"
+                    Text="{x:Static languages:AppResources.AddGradeTitle}" />
+            </radialMenu:SfRadialMenu.Items>
+        </radialMenu:SfRadialMenu>
+
+        <popup:SfPopup
+            x:Name="filterPopup"
+            HeaderTitle="{x:Static languages:AppResources.FilterTitle}"
+            HeightRequest="500"
+            IsOpen="{Binding IsFilterPopupVisible, Mode=TwoWay}"
+            IsVisible="{Binding IsFilterPopupVisible, Mode=TwoWay}"
+            WidthRequest="500">
+            <popup:SfPopup.ContentTemplate>
+                <DataTemplate x:DataType="viewmodels:MainPageViewModel">
+                    <StackLayout
+                        Padding="10"
+                        BackgroundColor="White"
+                        Spacing="10">
+                        <core:SfTextInputLayout Hint="{x:Static languages:AppResources.StudentNumberTitle}">
+                            <editors:SfMaskedEntry
+                                Mask="00000000"
+                                MaskType="Simple"
+                                Value="{Binding FilterId, Mode=TwoWay}" />
+                        </core:SfTextInputLayout>
+                        <core:SfTextInputLayout Hint="{x:Static languages:AppResources.LastNameTitle}">
+                            <Entry Text="{Binding FilterLastName, Mode=TwoWay}" TextColor="Black" />
+                        </core:SfTextInputLayout>
+                        <core:SfTextInputLayout Hint="{x:Static languages:AppResources.FirstNameTitle}">
+                            <Entry Text="{Binding FilterFirstName, Mode=TwoWay}" TextColor="Black" />
+                        </core:SfTextInputLayout>
+                        <core:SfTextInputLayout Hint="{x:Static languages:AppResources.DegreeProgramTitle}">
+                            <editors:SfComboBox
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding DegreeProgramListModels}"
+                                SelectedItem="{Binding FilterDegreeProgrammName, Mode=TwoWay}" />
+                        </core:SfTextInputLayout>
+                        <Grid ColumnDefinitions="*,*">
+                            <buttons:SfButton
+                                Grid.Column="0"
+                                BackgroundColor="RoyalBlue"
+                                Command="{Binding ApplyFilterCommand}"
+                                HorizontalOptions="Start"
+                                Text="{x:Static languages:AppResources.ApplyTitle}"
+                                TextColor="White" />
+                            <buttons:SfButton
+                                Grid.Column="1"
+                                BackgroundColor="DarkRed"
+                                Command="{Binding CancelFilterCommand}"
+                                HorizontalOptions="End"
+                                Text="{x:Static languages:AppResources.ClearFilterTitle}"
+                                TextColor="White" />
+                        </Grid>
+                    </StackLayout>
+                </DataTemplate>
+            </popup:SfPopup.ContentTemplate>
+        </popup:SfPopup>
+        <core:SfBusyIndicator
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            AnimationType="DoubleCircle"
+            HeightRequest="100"
+            HorizontalOptions="Center"
+            IndicatorColor="RoyalBlue"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="True"
+            VerticalOptions="Center"
+            WidthRequest="100" />
+    </Grid>
+</ContentPage>

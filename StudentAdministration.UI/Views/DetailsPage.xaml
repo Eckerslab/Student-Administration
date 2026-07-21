@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage
+    x:Class="StudentAdministration.UI.Views.DetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:dataGrid="http://schemas.syncfusion.com/maui"
+    xmlns:interface="clr-namespace:StudentAdministration.UI.ViewModel.Interfaces"
+    xmlns:languages="clr-namespace:StudentAdministration.UI.Resources.Languages"
+    x:DataType="interface:IDetailsPageViewModel">
+    <ContentPage.Content>
+        <AbsoluteLayout HorizontalOptions="Fill" VerticalOptions="Fill">
+            <Grid
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor=" WhiteSmoke"
+                ColumnDefinitions="25*,150,250,*,25*"
+                RowDefinitions="10*,40,40,40,40,30*,60,60,10*">
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{x:Static languages:AppResources.NameTitle}" />
+                            <Span Text=":" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Text="{Binding StudentFullName}"
+                    TextColor="Black" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{x:Static languages:AppResources.EmailTitle}" />
+                            <Span Text=":" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Text="{Binding Student.Email}"
+                    TextColor="Black" />
+
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{x:Static languages:AppResources.DegreeProgramTitle}" />
+                            <Span Text=":" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Text="{Binding Student.DegreeProgram.Name}"
+                    TextColor="Black" />
+
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{x:Static languages:AppResources.CreditsTitle}" />
+                            <Span Text=":" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Text="{Binding Student.Credits}"
+                    TextColor="Black" />
+                <dataGrid:SfDataGrid
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Margin="5"
+                    ItemsSource="{Binding CourseGradeDisplay}"
+                    RowHeight="40">
+                    <dataGrid:SfDataGrid.Columns>
+                        <dataGrid:DataGridTextColumn
+                            Width="200"
+                            HeaderStyle="{StaticResource DataGridHeaderStyle}"
+                            HeaderText="{x:Static languages:AppResources.CourseTitle}"
+                            MappingName="Course" />
+                        <dataGrid:DataGridTextColumn
+                            Width="100"
+                            HeaderStyle="{StaticResource DataGridHeaderStyle}"
+                            HeaderText="{x:Static languages:AppResources.GradeTitle}"
+                            MappingName="Grade" />
+                    </dataGrid:SfDataGrid.Columns>
+                </dataGrid:SfDataGrid>
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    Text="{x:Static languages:AppResources.GradeAverageTitle}"
+                    TextColor="Black" />
+                <Label
+                    Grid.Row="6"
+                    Grid.Column="2"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    Text="{Binding GradePointAverage}"
+                    TextColor="Black" />
+                <buttons:SfButton
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Command="{Binding CloseDetailsPopupCommand}"
+                    HorizontalOptions="Center"
+                    Text="{x:Static languages:AppResources.CloseTitle}" />
+                <dataGrid:SfBusyIndicator
+                    Grid.Row="0"
+                    Grid.RowSpan="9"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="5"
+                    AnimationType="DoubleCircle"
+                    HeightRequest="100"
+                    HorizontalOptions="Center"
+                    IndicatorColor="RoyalBlue"
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="True"
+                    VerticalOptions="Center"
+                    WidthRequest="100" />
+            </Grid>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
