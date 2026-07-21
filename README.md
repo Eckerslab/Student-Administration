@@ -1,7 +1,7 @@
 # Student Administration
 
 
-A cross-platform **.NET MAUI** application for managing students, grades, degree programs and universities. The application is split into a clean, multi-layered architecture (data access, services, UI) and uses Entity Framework Core for persistence.
+A cross-platform **.NET MAUI** application for managing students, grades, degree programs and universities. The application is split into a clean, multi-layered architecture (data access, services, UI) and uses Entity Framework Core for persistence. 
 
 
 ## Table of Contents
@@ -19,7 +19,7 @@ A cross-platform **.NET MAUI** application for managing students, grades, degree
 
 Student Administration lets you create, edit, filter and delete students, record grades for courses and calculate the grade average. The UI supports multiple languages via localized resources.
 
-This application was built for practice purposes, in order to internalize working with a multi-layered architecture and Entity Framework.
+This application was built for practice purposes, it is intended for code review and portfolio purposes only. It is not configured to be built or run. The focus is on showcasing the project's architecture.
 
 ---
 
